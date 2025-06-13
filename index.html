@@ -4,129 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timer Bollitore</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        .container {
-            text-align: center;
-            background-color: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .timer {
-            font-size: 3rem;
-            margin: 1rem 0;
-        }
-        .message {
-            font-size: 1.5rem;
-            margin: 1rem 0;
-            color: #333;
-        }
-        button {
-            font-size: 1.2rem;
-            padding: 0.5rem 2rem;
-            margin: 0.5rem;
-            border: none;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-        button:hover:not(:disabled) {
-            background-color: #45a049;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Timer Bollitore</h1>
-        <div class="timer" id="timer">06:00</div>
-        <div class="message" id="message">Premi Start per iniziare</div>
-        <button id="startBtn">Start</button>
-        <button id="coolBtn" disabled>Raffreddamento</button>
-        <audio id="boilingSound">
-            <source src="data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjI5LjEwMAAAAAAAAAAAAAAA//OEAAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAAUAAAfkAAGBgYGDQ0NDQ0UFBQUGxsbGxsiIiIiKSkpKSkwMDAwNzc3Nzc+Pj4+RUVFRUVMTExMU1NTU1NaWlpaYWFhYWFoaGhoaW9vb29wcHBwcHd3d3d+fn5+hYWFhYWMjIyMk5OTk5OaWlpaaWhoaGhvb29vdnZ2dnZ9fX19hISEhISLi4uLkpKSkpKZmZmZoKCgoKCnp6enrq6urq61tbW1vLy8vLzDw8PDysrKysrR0dHR2NjY2Njf39/f5ubm5ubj4+Pj6urq6ur/////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOExBTUUzLjEwMAIAAAAUAAAB4ABASgAAQAAAB+R2U+EzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//PEZAAScQ4UAVngAA7QXpXvPABBxEzSveeACAAAA0gAIAAAmp3ve973ve9SqsX9Xve973vf/X1e973ve9SqsX9X3v9fV73wIAAAAAAAAHCwuNjYuNi42LjYuNi42LjYsNiwuNi42LjYuNi42LjYsLjZVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV" type="audio/mpeg">
-        </audio>
-    </div>
+    <body>
+<div>
+    <span>13-06-2025</span>
+    <h2>Html</h2>
+    <h3>Lezione - 1</h3>
 
-    <script>
-        let timer;
-        let timeLeft;
-        let phase = 'idle'; // idle, boiling, cooling
-        const startBtn = document.getElementById('startBtn');
-        const coolBtn = document.getElementById('coolBtn');
-        const timerDisplay = document.getElementById('timer');
-        const messageDisplay = document.getElementById('message');
-        const boilingSound = document.getElementById('boilingSound');
+    
+</div>
+        
+    </body>
 
-        function startTimer(seconds, phase) {
-            timeLeft = seconds;
-            updateDisplay();
-            
-            timer = setInterval(() => {
-                timeLeft--;
-                updateDisplay();
-                
-                if (timeLeft === 0) {
-                    clearInterval(timer);
-                    handlePhaseComplete(phase);
-                }
-            }, 1000);
-        }
-
-        function updateDisplay() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-        }
-
-        function handlePhaseComplete(currentPhase) {
-            if (currentPhase === 'boiling') {
-                boilingSound.play();
-                messageDisplay.textContent = "L'acqua bolle! Inizia il raffreddamento";
-                startBtn.disabled = true;
-                coolBtn.disabled = false;
-                phase = 'idle';
-            } else if (currentPhase === 'cooling') {
-                messageDisplay.textContent = "Controlla la temperatura!";
-                startBtn.disabled = false;
-                coolBtn.disabled = true;
-                phase = 'idle';
-            }
-        }
-
-        startBtn.addEventListener('click', () => {
-            if (phase === 'idle') {
-                phase = 'boiling';
-                messageDisplay.textContent = "Bollimento in corso...";
-                startBtn.disabled = true;
-                coolBtn.disabled = true;
-                startTimer(360, 'boiling'); // 6 minuti = 360 secondi
-            }
-        });
-
-        coolBtn.addEventListener('click', () => {
-            if (phase === 'idle') {
-                phase = 'cooling';
-                messageDisplay.textContent = "Raffreddamento in corso...";
-                startBtn.disabled = true;
-                coolBtn.disabled = true;
-                startTimer(360, 'cooling'); // 6 minuti = 360 secondi
-            }
-        });
-    </script>
-</body>
 </html>
